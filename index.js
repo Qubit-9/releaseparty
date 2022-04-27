@@ -6,16 +6,15 @@ import 'dotenv/config'
 const app = express();
 const port = process.env.PORT || '3000';
 
-app.get('/',function(req,res) {
-    res.sendFile('frontend/index.html', { root: '.' });
-});
+app.use(express.static('./public'));
+
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
 });
 
 async function getEvents() {
     console.log("getting events");
-    
+
     const repoURL = process.env.REPOSITORY_URL.split('/');
     const org = repoURL.at(-3);
     const repo = repoURL.at(-2);
@@ -24,7 +23,7 @@ async function getEvents() {
         url: `https://${process.env.GITHUB_USER}:${process.env.GITHUB_TOKEN}@api.github.com/repos/${org}/${repo}/events`,
     });
 
-    fs.writeFile('./events.json', JSON.stringify(res.data), {flag: 'w+'}, () => {});
+    fs.writeFile('./public/events.json', JSON.stringify(res.data), {flag: 'w+'}, () => {});
 }
 
 getEvents();
