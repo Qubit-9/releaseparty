@@ -4,7 +4,7 @@ grabs github events of a given repository
 
 ## getting started
 
-create a .env file
+create an .env file
 ```
 GITHUB_USER="your github username"
 GITHUB_TOKEN="your github token"
