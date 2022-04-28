@@ -1,0 +1,50 @@
+* {
+    box-sizing: 0;
+}
+
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: Helvetica;
+}
+
+.timeline {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.event {
+    padding: 20px;
+}
+
+.event .user {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.event .user .profileName {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.event .user .profileUserName {
+    font-size: 16px;
+    color: #6D6B6B;
+}
+
+.event .user .time {
+    margin-top: 3px;
+    font-size: 14px;
+}
+
+.event .profilePicture {
+    width: 130px;
+    height: 130px;
+    border-radius: 150px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
