@@ -7,16 +7,44 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: Helvetica;
+    overflow-y: hidden;
 }
 
 .timeline {
     max-width: 600px;
     width: 100%;
-    margin: 0 auto;
+    margin: 50px auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-300px) translateY(-300px);
 }
 
 .event {
     padding: 20px;
+    position: absolute;
+    border-bottom: 1px solid #eee;
+    transition: all .8s ease;
+    width: 100%;
+}
+
+.event.new {
+    opacity: 0;
+}
+
+.event.inactive-1 {
+    transform: translateY(220px) scale(0.8);
+    opacity: 0.5;
+}
+
+.event.inactive-2 {
+    transform: translateY(400px) scale(0.8);
+    opacity: 0.5;
+}
+
+.event.inactive-3 {
+    transform: translateY(600px) scale(0.8);
+    opacity: 0;
 }
 
 .event .user {
@@ -41,8 +69,8 @@ body {
 }
 
 .event .profilePicture {
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
     border-radius: 150px;
     background-position: center;
     background-repeat: no-repeat;
@@ -50,16 +78,17 @@ body {
 }
 
 .event .eventContent {
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 .event .eventContent .eventText {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: bold;
 }
 
 .event .eventContent .branchText {
-    font-size: 30px;
+    font-size: 16px;
     font-weight: 300;
+    margin-top: 5px;
     color: #5D5DEA;
 }
