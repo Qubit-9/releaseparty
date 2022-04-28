@@ -49,7 +49,7 @@ class EventHandler {
             return new Date(b.timestamp) - new Date(a.timestamp);
         });
         this.events = events;
-        this.events.forEach((event, i) => {
+        this.events.slice(0,3).forEach((event, i) => {
             this.timelineElement.innerHTML += `
             <div class="event ${ i == 0 ? 'active' : 'inactive-' + i}" data-id="${event.id}">
                 <div class="user">
