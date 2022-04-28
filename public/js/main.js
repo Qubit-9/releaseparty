@@ -48,8 +48,8 @@ class EventHandler {
     async setupParty() {
         const events = await fetch('events.json').then(response => response.json());
         events.sort(function(a,b){
-            return new Date(b.timestamp) - new Date(a.timestamp);
-        });
+            return new Date(a.timestamp) - new Date(b.timestamp);
+        }); //getting the oldest events
 
         events.forEach((event, i) => {
             event.position = i;
