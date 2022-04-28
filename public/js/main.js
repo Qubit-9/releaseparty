@@ -76,30 +76,28 @@ class EventHandler {
     }
 
     updateAnimation() {
+        if(document.querySelector('.event.inactive-2') !== null) {
+            document.querySelector('.event.inactive-2').classList.add('inactive-3');
+            document.querySelector('.event.inactive-3').classList.remove('inactive-2');
+        }
+
+        if(document.querySelector('.event.inactive-1') !== null) {
+            document.querySelector('.event.inactive-1').classList.add('inactive-2');
+            document.querySelector('.event.inactive-2').classList.remove('inactive-1');
+        }
+
+        if(document.querySelector('.event.active') !== null) {
+            document.querySelector('.event.active').classList.add('inactive-1');
+            document.querySelector('.event.active').classList.remove('active');
+        }
+
+        this.playSuccessSound();
+
         window.setTimeout(() => {
-            if(document.querySelector('.event.inactive-2') !== null) {
-                document.querySelector('.event.inactive-2').classList.add('inactive-3');
-                document.querySelector('.event.inactive-3').classList.remove('inactive-2');
-            }
-
-            if(document.querySelector('.event.inactive-1') !== null) {
-                document.querySelector('.event.inactive-1').classList.add('inactive-2');
-                document.querySelector('.event.inactive-2').classList.remove('inactive-1');
-            }
-
-            if(document.querySelector('.event.active') !== null) {
-                document.querySelector('.event.active').classList.add('inactive-1');
-                document.querySelector('.event.active').classList.remove('active');
-            }
-
-            this.playSuccessSound();
-
-            window.setTimeout(() => {
-                document.querySelector('.event.new').classList.add('active');
-                document.querySelector('.event.new').classList.remove('new');
-                this.runParty()
-            }, 800)
-        }, 3000)
+            document.querySelector('.event.new').classList.add('active');
+            document.querySelector('.event.new').classList.remove('new');
+            this.runParty()
+        }, 800)
     }
 
     parseEventText(eventType, eventTitle) {
