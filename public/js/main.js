@@ -6,7 +6,7 @@ const pull_request_closed_messages = ["We had to close this one 💩", "Sorry gu
 class EventHandler {
 
     runParty() {
-        party.confetti(document.querySelector('.event.active'), {
+        party.confetti(document.querySelector('.event.position-0'), {
             count: party.variation.range(50, 100)
         })
     }
@@ -39,8 +39,10 @@ class EventHandler {
             </div>
         </div>
         `
-
-        this.updateAnimation();
+        window.setTimeout(() => {
+            this.updateAnimation();
+        }, 400)
+        
     }
 
     async setupParty() {
@@ -48,10 +50,15 @@ class EventHandler {
         events.sort(function(a,b){
             return new Date(b.timestamp) - new Date(a.timestamp);
         });
-        this.events = events;
-        this.events.slice(0,3).forEach((event, i) => {
+
+        events.forEach((event, i) => {
+            event.position = i;
+        })
+
+        this.events = events.slice(0,3);
+        this.events.forEach((event, i) => {
             this.timelineElement.innerHTML += `
-            <div class="event ${ i == 0 ? 'active' : 'inactive-' + i}" data-id="${event.id}">
+            <div class="event ${ 'position-' + event.position }" data-id="${event.id}">
                 <div class="user">
                     <div class="profilePictureWrapper">
                         <div class="profilePicture" style="background-image: url(${event.profilePicUrl})"></div>
@@ -76,25 +83,21 @@ class EventHandler {
     }
 
     updateAnimation() {
-        if(document.querySelector('.event.inactive-2') !== null) {
-            document.querySelector('.event.inactive-2').classList.add('inactive-3');
-            document.querySelector('.event.inactive-3').classList.remove('inactive-2');
-        }
-
-        if(document.querySelector('.event.inactive-1') !== null) {
-            document.querySelector('.event.inactive-1').classList.add('inactive-2');
-            document.querySelector('.event.inactive-2').classList.remove('inactive-1');
-        }
-
-        if(document.querySelector('.event.active') !== null) {
-            document.querySelector('.event.active').classList.add('inactive-1');
-            document.querySelector('.event.active').classList.remove('active');
-        }
+        this.events.forEach((event) => {
+            if(event.position == -1) {
+                event.position = 0;
+            } else {
+                event.position += 1;
+                console.log(event.id);
+                console.log(this.events);
+                document.querySelector(`[data-id='${event.id}']`).className = `event position-${event.position > 3 ? 'hidden' : event.position}`;
+            }
+        });
 
         this.playSuccessSound();
 
         window.setTimeout(() => {
-            document.querySelector('.event.new').classList.add('active');
+            document.querySelector('.event.new').classList.add('position-0');
             document.querySelector('.event.new').classList.remove('new');
             this.runParty()
         }, 800)
@@ -115,27 +118,37 @@ class EventHandler {
 
     async resolveQueue() {
         if(this.queue.length >= 1) {
-            this.addNewEvent(this.queue[0])
-            this.events.push(this.queue[0])
+            const newEvent = this.queue[0];
+            newEvent.position = -1;
+            this.events.push(newEvent)
             this.queue.shift()
+            this.addNewEvent(newEvent)
         }
     }
 
     async getNewEvents() {
-        console.log("getting new Events");
         const newEvents = await fetch('events.json').then(response => response.json());
         newEvents.forEach((newEvent) => {
-            let foundEventInCurrents = false;
-            this.events.forEach((currentEvent) => {
-                if(newEvent.id == currentEvent.id) {
-                    foundEventInCurrents = true;
-                }
-            })
-
-            if(!foundEventInCurrents) {
+            if(!this.inQueue(newEvent.id) && !this.inEvents(newEvent.id)) {
                 this.queue.push(newEvent);
             }
         });
+    }
+
+    inQueue(eventId) {
+        for(let i = 0; i < this.queue.length; i += 1) {
+            if (this.queue[i].id == eventId) return true
+        }
+
+        return false
+    }
+
+    inEvents(eventId) {
+        for(let i = 0; i < this.events.length; i += 1) {
+            if (this.events[i].id == eventId) return true
+        }
+
+        return false
     }
 
     constructor() {

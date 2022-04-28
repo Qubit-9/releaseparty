@@ -32,17 +32,27 @@ body {
     opacity: 0;
 }
 
-.event.inactive-1 {
+.event.position-0 {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.event.position-1 {
     transform: translateY(220px) scale(0.8);
     opacity: 0.5;
 }
 
-.event.inactive-2 {
+.event.position-2 {
     transform: translateY(400px) scale(0.8);
     opacity: 0.5;
 }
 
-.event.inactive-3 {
+.event.position-3 {
+    transform: translateY(600px) scale(0.8);
+    opacity: 0;
+}
+
+.event.position-hidden {
     transform: translateY(600px) scale(0.8);
     opacity: 0;
 }
