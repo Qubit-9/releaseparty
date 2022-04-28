@@ -31,7 +31,7 @@ body {
 }
 
 .event .user .profileUserName {
-    font-size: 16px;
+    font-size: 18px;
     color: #6D6B6B;
 }
 
@@ -47,4 +47,19 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.event .eventContent {
+    margin-top: 40px;
+}
+
+.event .eventContent .eventText {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.event .eventContent .branchText {
+    font-size: 30px;
+    font-weight: 300;
+    color: #5D5DEA;
 }
