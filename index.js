@@ -41,14 +41,17 @@ function filterEvents(json_events) {
             eventType = "pull_request_opened";
         } else if (prAction === "closed" && prMerged === true) {
             eventType = "pull_request_merged";
+        } else if (prAction === "closed" && prMerged === false) {
+            eventType = "pull_request_closed";
         } else {
             return null;
         }
+
         return {
             id: prEvent.id,
+            eventId: prEvent.payload.pull_request.id,
             eventType: eventType,
             title: prEvent.payload.pull_request.title,
-            subtitle: '',
             timestamp: prEvent.created_at,
             username: prEvent.actor.login ,
             name: prEvent.actor.display_login,
