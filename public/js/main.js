@@ -145,8 +145,6 @@ class EventHandler {
         this.queue = [];
         this.timelineElement = document.querySelector('.timeline');
         this.setupParty()
-
-        window.setTimeout(this.addNewEvent({"id":"21514373008","eventType":"pull_request_opened","title":"feat(hackathon): add driver controller in bm","subtitle":"","timestamp":"2022-04-28T08:32:30Z","username":"lklammtMW","name":"lklammtMW","profilePicUrl":"https://avatars.githubusercontent.com/u/99741949?"}), 3000)
         setInterval(() => {
             this.getNewEvents();
         }, 5000)
