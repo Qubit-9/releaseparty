@@ -135,8 +135,6 @@ class EventHandler {
             }
         });
 
-        this.playSound('success');
-
         window.setTimeout(() => {
             document.querySelector('.event.new').classList.add('position-0');
             document.querySelector('.event.new').classList.remove('new');
