@@ -1,6 +1,6 @@
 # releasegong
 
-grabs github events of a given repository
+grabs github pull requests   of a given repository
 
 ## getting started
 
