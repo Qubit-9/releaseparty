@@ -6,6 +6,11 @@ class EventHandler {
         })
     }
 
+    playSuccessSound() {
+        let audio = new Audio('audio/tuturu.mp3');
+        audio.play();
+    }
+
     moveAllDown() {
         window.setTimeout(() => {
             document.querySelector('.event.inactive-2').classList.add('inactive-3');
@@ -16,6 +21,7 @@ class EventHandler {
 
             document.querySelector('.event.active').classList.add('inactive-1');
             document.querySelector('.event.active').classList.remove('active');
+            this.playSuccessSound();
 
             window.setTimeout(() => {
                 document.querySelector('.event.new').classList.remove('new');
@@ -29,4 +35,8 @@ class EventHandler {
     }
 }
 
-new EventHandler()
+
+document.querySelector('#startButton').addEventListener('click', () => {
+    document.querySelector('.overlay').classList.add('hidden');
+    new EventHandler()
+});
