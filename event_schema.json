@@ -25,14 +25,14 @@
           "id": {
             "type": "string"
           },
-          "eventType": {
-            "type": "string",
-            "pattern": "^(pull_request_opened|pull_request_merged|workflow_started|workflow_finished|workflow_failed)"
-          },
-          "title": {
+          "eventId": {
             "type": "string"
           },
-          "subtitle": {
+          "eventType": {
+            "type": "string",
+            "pattern": "^(pull_request_opened|pull_request_merged|pull_request_closed)"
+          },
+          "title": {
             "type": "string"
           },
           "timestamp": {
