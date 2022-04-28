@@ -1,6 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 import express from 'express';
+import schedule from 'node-schedule'
 import 'dotenv/config'
 
 const app = express();
@@ -14,20 +15,36 @@ app.listen(port, () => {
 
 async function getEvents() {
     console.log("getting events");
-
-    const repoURL = process.env.REPOSITORY_URL.split('/');
-    const org = repoURL.at(-3);
-    const repo = repoURL.at(-2);
+    const org = process.env.REPOSITORY_OWNER;
+    const repo = process.env.REPOSITORY_NAME;
+    console.log(`https://${process.env.GITHUB_USER}:${process.env.GITHUB_TOKEN}@api.github.com/repos/${org}/${repo}/events`);
     const res = await axios({
         method: 'get',
         url: `https://${process.env.GITHUB_USER}:${process.env.GITHUB_TOKEN}@api.github.com/repos/${org}/${repo}/events`,
     });
-
-    fs.writeFile('./public/events.json', JSON.stringify(res.data), {flag: 'w+'}, () => {});
+    return JSON.stringify(res.data);
 }
 
-getEvents();
+function filterEvents(json_events) {
+    console.log("filtering events");
+//    TODO: filtering and format transformation
+    return json_events;
+}
 
-setInterval(() => {
-    getEvents();
-}, 60 * 1000);
+async function writeEventsFile(json_events) {
+    console.log("writing events");
+    fs.writeFile('./public/events.json', JSON.stringify(json_events), {flag: 'w+'}, () => {});
+}
+
+async function processEvents() {
+    const events = await getEvents();
+    const filteredEvents = filterEvents(events);
+    await writeEventsFile(filteredEvents)
+}
+
+const job = schedule.scheduleJob(`*/${process.env.PERIOD_SECONDS} * * * * *`, async function(){
+    console.log('triggering event job');
+    await processEvents();
+});
+
+job.schedule();
