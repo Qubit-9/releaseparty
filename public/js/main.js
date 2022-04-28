@@ -151,7 +151,7 @@ class EventHandler {
 
         setInterval(() => {
             this.resolveQueue();
-        }, 3800)
+        }, 4000)
     }
 }
 
