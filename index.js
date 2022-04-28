@@ -22,29 +22,57 @@ async function getEvents() {
         method: 'get',
         url: `https://${process.env.GITHUB_USER}:${process.env.GITHUB_TOKEN}@api.github.com/repos/${org}/${repo}/events`,
     });
-    return JSON.stringify(res.data);
+    return res.data;
 }
 
 function filterEvents(json_events) {
     console.log("filtering events");
-//    TODO: filtering and format transformation
-    return json_events;
+    const prEvents = json_events.filter(function(event) {
+        return event.type === "PullRequestEvent"
+    });
+
+    const cleanedPrEvents = prEvents.map(function(prEvent) {
+        const prAction = prEvent.payload.action;
+        const prMerged = prEvent.payload.pull_request.merged;
+
+        let eventType;
+
+        if (prAction === "opened") {
+            eventType = "pull_request_opened";
+        } else if (prAction === "closed" && prMerged === true) {
+            eventType = "pull_request_merged";
+        } else {
+            return null;
+        }
+        return {
+            id: prEvent.id,
+            eventType: eventType,
+            title: prEvent.payload.pull_request.title,
+            subtitle: '',
+            timestamp: prEvent.created_at,
+            username: prEvent.actor.login ,
+            name: prEvent.actor.display_login,
+            profilePicUrl: prEvent.actor.avatar_url
+        }
+    })
+
+    return cleanedPrEvents.filter(event => {
+        return event !== null;
+    });
 }
 
-async function writeEventsFile(json_events) {
+function writeEventsFile(json_events) {
     console.log("writing events");
-    fs.writeFile('./public/events.json', JSON.stringify(json_events), {flag: 'w+'}, () => {});
+    fs.writeFileSync('./public/events.json', JSON.stringify(json_events));
 }
 
 async function processEvents() {
     const events = await getEvents();
     const filteredEvents = filterEvents(events);
-    await writeEventsFile(filteredEvents)
+    writeEventsFile(filteredEvents)
 }
 
-const job = schedule.scheduleJob(`*/${process.env.PERIOD_SECONDS} * * * * *`, async function(){
+schedule.scheduleJob(`*/${process.env.PERIOD_SECONDS} * * * * *`, async function(){
     console.log('triggering event job');
     await processEvents();
 });
-
-job.schedule();
