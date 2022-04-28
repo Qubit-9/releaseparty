@@ -80,7 +80,7 @@ class EventHandler {
     }
 
     async setupParty() {
-        const events = await fetch('events.json?' + new Date()).then(response => response.json());
+        const events = await fetch('events.json?' + Date.now()).then(response => response.json());
         events.sort(function(a,b){
             return new Date(a.timestamp) - new Date(b.timestamp);
         }); //getting the oldest events
@@ -165,7 +165,7 @@ class EventHandler {
     }
 
     async getNewEvents() {
-        const newEvents = await fetch('events.json').then(response => response.json());
+        const newEvents = await fetch('events.json?' + Date.now()).then(response => response.json());
         newEvents.sort(function(a,b){
             return new Date(a.timestamp) - new Date(b.timestamp);
         }); //getting the oldest events
