@@ -1,5 +1,6 @@
 const pull_request_opened_messages = ["Just opened a pull request 🧐", "Look at my juicy pull request! 🔥🔥"]
 const pull_request_merged_messages = ["Just put out a new release! 🎉", "New version released 🔥🔥", "Just made our product better 🥳"]
+const pull_request_closed_messages = ["We had to close this one 💩", "Sorry guys i made mistake 😅"]
 
 
 class EventHandler {
@@ -107,6 +108,8 @@ class EventHandler {
                 return pull_request_opened_messages[Math.floor(Math.random() * pull_request_opened_messages.length)];
             case 'pull_request_merged':
                 return pull_request_merged_messages[Math.floor(Math.random() * pull_request_merged_messages.length)];
+            case 'pull_request_closed':
+                return pull_request_closed_messages[Math.floor(Math.random() * pull_request_closed_messages.length)];
             default:
                 return "doesn't know what is happening 🤔";
         }
