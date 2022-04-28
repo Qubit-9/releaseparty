@@ -61,7 +61,7 @@ class EventHandler {
         
         window.setTimeout(() => {
             this.runParty();
-            switch(eventType){
+            switch(event.eventType){
                 case 'pull_request_opened':
                     this.playSound('wow')
                     break
@@ -80,7 +80,7 @@ class EventHandler {
     }
 
     async setupParty() {
-        const events = await fetch('events.json').then(response => response.json());
+        const events = await fetch('events.json?' + new Date()).then(response => response.json());
         events.sort(function(a,b){
             return new Date(a.timestamp) - new Date(b.timestamp);
         }); //getting the oldest events
