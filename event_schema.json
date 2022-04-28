@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "release_gong_event.json",
+  "title": "This is the JSON Schema of an Event in the Release Gong Project",
+  "type": "object",
+  "required": ["events"],
+  "additionalProperties": false,
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "eventType",
+          "title",
+          "subtitle",
+          "timestamp",
+          "username",
+          "name",
+          "profilePicUrl"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "eventType": {
+            "type": "string",
+            "pattern": "^(pull_request_opened|pull_request_merged|workflow_started|workflow_finished|workflow_failed)"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "profilePicUrl": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
