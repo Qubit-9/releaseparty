@@ -117,7 +117,7 @@ class EventHandler {
     }
 
     updateTime() {
-        const eventElements = document.querySelectorAll('.events');
+        const eventElements = document.querySelectorAll('.event');
         eventElements.forEach((eventElement) => {
             let timeElement = eventElement.querySelector(".time");
             let timeStamp = timeElement.getAttribute("data-timestamp");
